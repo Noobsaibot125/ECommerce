@@ -1,31 +1,36 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
-    <section className="w-full bg-[#1C1C1E] text-white pt-16 pb-0 px-6 md:px-12 flex flex-col items-center text-center overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between w-full gap-8 h-full">
+    <section className="w-full bg-[#211C24] text-white overflow-hidden">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between w-full px-6 md:px-12 min-h-[500px] md:min-h-[650px]">
         {/* Left: Text Content */}
-        <div className="flex flex-col items-start text-left z-10 md:w-1/2 space-y-4">
-          <p className="text-gray-400 font-semibold mb-2 tracking-wide lg:text-lg">Pro.Beyond.</p>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-thin tracking-tighter mb-4">
-            iPhone 14 <span className="font-bold">Pro</span>
+        <div className="flex flex-col items-start text-left z-10 md:w-[40%] space-y-5 py-16 md:py-20">
+          <p className="text-gray-400 font-medium text-base tracking-wide">Pro.Beyond.</p>
+          <h1 className="text-5xl md:text-7xl font-extralight tracking-tight leading-none whitespace-nowrap">
+            iPhone 14 <span className="font-semibold">Pro</span>
           </h1>
-          <p className="text-gray-400 text-sm md:text-lg max-w-md mb-8">
+          <p className="text-gray-400 text-base max-w-sm">
             Créé pour tout changer pour le mieux. Pour tout le monde.
           </p>
-          <button className="px-10 py-4 bg-transparent border border-white text-white rounded-md hover:bg-white hover:text-black transition-all font-medium">
+          <Link
+            href="/boutique"
+            className="inline-block mt-2 px-8 py-3 bg-transparent border border-white text-white rounded-md hover:bg-white hover:text-black transition-all font-medium text-sm"
+          >
             Acheter maintenant
-          </button>
+          </Link>
         </div>
 
-        {/* Right Content: Image */}
-        <div className="relative w-full md:w-1/2 h-[450px] md:h-[650px] lg:h-[750px] z-0">
+        {/* Right Content: Image — Zoomed but fully visible */}
+        <div className="relative md:w-[60%] h-[400px] md:h-[650px] self-stretch">
           <Image
             src="/images/Home/hero_iphone.png"
             alt="iPhone 14 Pro"
             fill
-            className="object-contain object-bottom scale-110 lg:scale-125 select-none pointer-events-none"
+            className="object-contain object-center scale-[1.25] md:scale-[1.2] origin-center"
             priority
+            sizes="(max-width: 768px) 100vw, 60vw"
           />
         </div>
       </div>
