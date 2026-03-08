@@ -17,13 +17,22 @@ export function Logo({ className, variant = "navbar" }: LogoProps) {
   if (variant === "footer") {
     return (
       <div className={cn("flex flex-col items-start gap-4", className)}>
-        <div className="w-16 h-16 flex items-center justify-center text-white -ml-2">
+        <div className="w-16 h-16 flex items-center justify-center text-white">
           <AppleSvg />
         </div>
-        <div className="flex flex-col items-start leading-none -mt-4">
-          <span className="text-2xl font-bold tracking-tight text-white flex items-center gap-1">
-            Si <span className="text-gray-400">Hi-Tech</span>
-          </span>
+        <div className="flex flex-col items-start leading-none group">
+          <div className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+            <span>Si</span>
+            <div className="relative flex items-center">
+              <span className="text-gray-400">Hi-Tech</span>
+              {/* Add decorative dots to mimic circuit look */}
+              <div className="absolute -top-1 -right-2 flex gap-1">
+                <div className="w-1 h-1 bg-gray-400 rounded-full animate-pulse" />
+                <div className="w-1 h-1 bg-white rounded-full" />
+              </div>
+              <div className="absolute -bottom-1 left-4 w-4 h-[1px] bg-gray-600" />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -31,11 +40,21 @@ export function Logo({ className, variant = "navbar" }: LogoProps) {
 
   // Navbar variant (horizontal/compact)
   return (
-    <Link href="/" className={cn("flex items-center gap-2 group", className)}>
-      <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
+    <Link href="/" className={cn("flex items-center gap-3 group px-2 py-1", className)}>
+      <div className="w-8 h-8 flex items-center justify-center transition-transform group-hover:scale-110">
         <AppleSvg />
       </div>
-      <span className="font-bold text-lg tracking-tight">Si Hi-Tech</span>
+      <div className="flex items-center font-bold text-xl tracking-tighter">
+        <span>Si</span>
+        <div className="relative ml-1">
+          <span className="text-black">Hi-Tech</span>
+          {/* Subtle dots for tech feel */}
+          <div className="absolute -top-0.5 -right-1.5 flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-1 h-1 bg-black rounded-full" />
+            <div className="w-0.5 h-0.5 bg-gray-400 rounded-full" />
+          </div>
+        </div>
+      </div>
     </Link>
   );
 }
