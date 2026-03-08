@@ -1,17 +1,13 @@
 import { Search, ShoppingCart, Heart, User } from "lucide-react";
 import Link from "next/link";
+import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   return (
     <nav className="w-full bg-white border-b border-border py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
       {/* Left: Logo */}
-      <Link href="/" className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-          <span className="text-white font-bold text-lg leading-none"></span>
-        </div>
-        <span className="font-bold text-xl tracking-tight hidden sm:block">si Hi-Tech</span>
-      </Link>
+      <Logo />
 
       {/* Center: Search */}
       <div className="flex-1 max-w-md mx-4 hidden md:flex">

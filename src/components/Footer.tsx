@@ -25,12 +25,7 @@ const InstagramIcon = () => (
   </svg>
 );
 
-// Apple logo SVG
-const AppleLogo = () => (
-  <svg viewBox="0 0 814 1000" className="w-8 h-8 fill-current" aria-hidden="true">
-    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105-37.3-150.3-93.3C114 388 113.7 352 114 317.7c3.9-112.9 86.5-184.5 172.2-184.5 66.2 0 108.9 43.9 146 43.9 37.1 0 97.7-45.9 174.9-45.9 70.5 0 167.5 26.2 228.4 103zm-207.2-109.2c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/>
-  </svg>
-);
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -40,13 +35,8 @@ export function Footer() {
 
           {/* Column 1: Logo + description + social */}
           <div className="flex flex-col gap-5">
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center">
-                <AppleLogo />
-              </div>
-              <span className="font-semibold text-base text-white">si Hi-Tech</span>
-            </div>
+            {/* Logo Component */}
+            <Logo variant="footer" />
 
             {/* Description */}
             <p className="text-gray-400 text-sm leading-relaxed">
