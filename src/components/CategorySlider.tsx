@@ -66,29 +66,33 @@ const categories = [
 
 export function CategorySlider() {
   return (
-    <section className="py-12 px-6 md:px-12 max-w-7xl mx-auto w-full">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold">Parcourir par catégorie</h2>
-        <div className="flex gap-2">
-          <button className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      <div className="flex gap-5 overflow-x-auto pb-2 hide-scrollbar">
-        {categories.map((category) => (
-          <div
-            key={category.name}
-            className="flex-shrink-0 w-44 py-6 bg-[#F5F5F5] rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-gray-200 transition-colors border border-transparent hover:border-gray-300"
-          >
-            <category.icon />
-            <span className="font-medium text-sm text-center text-gray-700 px-2">{category.name}</span>
+    <section className="w-full bg-[#FAFAFA] py-16 px-6 md:px-12 flex flex-col items-center">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold">Parcourir par catégorie</h2>
+          <div className="flex gap-4">
+            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-colors">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-colors">
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
-        ))}
+        </div>
+
+        <div className="flex gap-5 overflow-x-auto pb-4 hide-scrollbar justify-between">
+          {categories.map((category) => (
+            <div
+              key={category.name}
+              className="flex-shrink-0 w-44 py-8 bg-[#EDEDED] rounded-2xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-black hover:text-white transition-all group border border-transparent"
+            >
+              <div className="scale-110 group-hover:invert group-hover:brightness-200 transition-all">
+                <category.icon />
+              </div>
+              <span className="font-semibold text-sm text-center px-2">{category.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

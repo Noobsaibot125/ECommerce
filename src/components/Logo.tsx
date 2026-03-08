@@ -17,11 +17,10 @@ export function Logo({ className, variant = "navbar" }: LogoProps) {
   if (variant === "footer") {
     return (
       <div className={cn("flex flex-col items-start gap-4", className)}>
-        <div className="w-12 h-12 flex items-center justify-center text-white">
+        <div className="w-16 h-16 flex items-center justify-center text-white -ml-2">
           <AppleSvg />
         </div>
-        <div className="flex flex-col items-start leading-none">
-          {/* Approximate the circuit-look with some dots or just clean typography as per figma if font unavailable */}
+        <div className="flex flex-col items-start leading-none -mt-4">
           <span className="text-2xl font-bold tracking-tight text-white flex items-center gap-1">
             Si <span className="text-gray-400">Hi-Tech</span>
           </span>
@@ -33,7 +32,7 @@ export function Logo({ className, variant = "navbar" }: LogoProps) {
   // Navbar variant (horizontal/compact)
   return (
     <Link href="/" className={cn("flex items-center gap-2 group", className)}>
-      <div className="w-6 h-6 flex items-center justify-center transition-transform group-hover:scale-110">
+      <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
         <AppleSvg />
       </div>
       <span className="font-bold text-lg tracking-tight">Si Hi-Tech</span>
