@@ -3,37 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ChevronRight } from "lucide-react";
-import { useState } from "react";
-
-interface CartItem {
-  id: string;
-  name: string;
-  subtitle: string;
-  price: number;
-  image: string;
-  quantity: number;
-}
-
-const initialCartItems: CartItem[] = [
-  { id: "1", name: "Apple iPhone 14 Pro Max", subtitle: "128Go Violet Intense", price: 900000, image: "product_iphone_14_purple.png", quantity: 1 },
-  { id: "2", name: "AirPods Pro (2ème gén)", subtitle: "Blanc", price: 180000, image: "product_airpods_pro.png", quantity: 2 },
-  { id: "3", name: "Apple Watch Series 9 GPS", subtitle: "41mm Starlight", price: 320000, image: "feature_apple_watch.png", quantity: 1 },
-];
+import { useCart } from "@/lib/CartContext";
 
 export default function PanierPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
-
-  const updateQuantity = (id: string, delta: number) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
+  const { items: cartItems, updateQuantity, removeItem } = useCart();
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = subtotal > 500000 ? 0 : 15000;

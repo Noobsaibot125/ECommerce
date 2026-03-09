@@ -1,9 +1,14 @@
+"use client";
+
 import { Search, ShoppingCart, Heart, User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/lib/CartContext";
 
 export function Navbar() {
+  const { totalItems } = useCart();
+
   return (
     <nav className="w-full bg-white border-b border-border py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
       {/* Left: Logo */}
@@ -36,9 +41,11 @@ export function Navbar() {
           </Link>
           <Link href="/panier" className="p-2 hover:bg-muted rounded-full transition-colors relative" aria-label="Cart">
             <ShoppingCart className="w-5 h-5" />
-            <span className="absolute top-0 right-0 w-4 h-4 bg-accent text-white text-[10px] font-bold flex items-center justify-center rounded-full">
-              2
-            </span>
+            {totalItems > 0 && (
+              <span className="absolute top-0 right-0 w-4 h-4 bg-accent text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                {totalItems > 99 ? "99+" : totalItems}
+              </span>
+            )}
           </Link>
           <Link href="/profil" className="p-2 hover:bg-muted rounded-full transition-colors relative" aria-label="Profile">
             <User className="w-5 h-5" />
@@ -48,3 +55,4 @@ export function Navbar() {
     </nav>
   );
 }
+

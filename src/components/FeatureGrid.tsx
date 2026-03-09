@@ -1,6 +1,31 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { useCart } from "@/lib/CartContext";
+import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 
 export function FeatureGrid() {
+  const [justAdded, setJustAdded] = useState(false);
+  const { addItem } = useCart();
+  const router = useRouter();
+
+  const handleBuyMacBook = () => {
+    addItem({
+      id: "macbook-air",
+      name: "MacBook Air 15 pouces",
+      subtitle: "Puce M2, Liquid Retina",
+      price: 950000,
+      image: "edd270b2-d195-4362-b756-1b85633b5984.png",
+    });
+    setJustAdded(true);
+    setTimeout(() => {
+      setJustAdded(false);
+      router.push("/panier");
+    }, 600);
+  };
+
   return (
     <section className="w-full bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -84,8 +109,21 @@ export function FeatureGrid() {
               Le nouveau MacBook Air 15 pouces vous offre encore plus d&apos;espace pour tout ce que vous aimez grâce à son écran Liquid Retina spacieux.
             </p>
             <div>
-              <button className="px-8 py-3.5 border border-black rounded-lg font-medium hover:bg-black hover:text-white transition-all bg-transparent">
-                Acheter maintenant
+              <button
+                onClick={handleBuyMacBook}
+                className={`px-8 py-3.5 border rounded-lg font-medium transition-all ${
+                  justAdded
+                    ? "bg-green-600 text-white border-green-600"
+                    : "border-black bg-transparent hover:bg-black hover:text-white"
+                }`}
+              >
+                {justAdded ? (
+                  <span className="flex items-center gap-1.5">
+                    <Check className="w-4 h-4" /> Ajouté !
+                  </span>
+                ) : (
+                  "Acheter maintenant"
+                )}
               </button>
             </div>
           </div>

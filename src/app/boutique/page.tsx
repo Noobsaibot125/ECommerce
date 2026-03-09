@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ChevronDown, ChevronRight, ChevronUp, Search } from "lucide-react";
+import { Heart, ChevronDown, ChevronRight, ChevronUp, Search, Check } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/lib/CartContext";
+import { useRouter } from "next/navigation";
 
 const allProducts = [
   { id: "1", name: "Apple iPhone 14 Pro Max 128Go Or (MQ9T3)", price: 900000, oldPrice: 1100000, image: "product_iphone_14_gold.png", isLiked: false },
@@ -47,6 +49,9 @@ function FilterSection({ title, children, defaultOpen = true }: { title: string;
 
 export default function BoutiquePage() {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
+  const [addedItem, setAddedItem] = useState<string | null>(null);
+  const { addItem } = useCart();
+  const router = useRouter();
 
   const toggleLike = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -55,6 +60,20 @@ export default function BoutiquePage() {
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
+  };
+
+  const handleBuyNow = (product: typeof allProducts[0], e: React.MouseEvent) => {
+    e.preventDefault();
+    addItem({
+      id: product.id,
+      name: product.name,
+      subtitle: "",
+      price: product.price,
+      image: product.image,
+    });
+    setAddedItem(product.id);
+    setTimeout(() => setAddedItem(null), 1500);
+    router.push("/panier");
   };
 
   return (
@@ -179,10 +198,20 @@ export default function BoutiquePage() {
                       )}
                     </div>
                     <button
-                      className="mt-2 w-full py-2.5 bg-black text-white rounded-md text-sm font-medium hover:bg-black/85 transition-colors"
-                      onClick={(e) => e.preventDefault()}
+                      className={`mt-2 w-full py-2.5 rounded-md text-sm font-medium transition-all ${
+                        addedItem === product.id
+                          ? "bg-green-600 text-white"
+                          : "bg-black text-white hover:bg-black/85"
+                      }`}
+                      onClick={(e) => handleBuyNow(product, e)}
                     >
-                      Acheter maintenant
+                      {addedItem === product.id ? (
+                        <span className="flex items-center justify-center gap-1.5">
+                          <Check className="w-4 h-4" /> Ajouté !
+                        </span>
+                      ) : (
+                        "Acheter maintenant"
+                      )}
                     </button>
                   </div>
                 </div>

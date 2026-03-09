@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ChevronRight, Minus, Plus, ShoppingCart, Star, Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import { Heart, ChevronRight, Minus, Plus, ShoppingCart, Star, Truck, ShieldCheck, RotateCcw, Check } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/lib/CartContext";
+import { useRouter } from "next/navigation";
 
 const product = {
   id: "1",
@@ -60,6 +62,32 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
   const [activeTab, setActiveTab] = useState<"desc" | "specs">("desc");
+  const [justAdded, setJustAdded] = useState(false);
+  const { addItem } = useCart();
+  const router = useRouter();
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      subtitle: product.subtitle,
+      price: product.price,
+      image: product.image,
+    }, quantity);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
+  };
+
+  const handleBuyNow = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      subtitle: product.subtitle,
+      price: product.price,
+      image: product.image,
+    }, quantity);
+    router.push("/panier");
+  };
 
   const discountPct = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -205,14 +233,26 @@ export default function ProductDetailPage() {
 
           {/* Buttons */}
           <div className="flex gap-3 mb-6">
-            <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3.5 border-2 border-black text-black rounded-xl font-semibold hover:bg-black hover:text-white transition-colors text-sm">
-              <ShoppingCart className="w-5 h-5" /> Ajouter au panier
+            <button
+              onClick={handleAddToCart}
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3.5 border-2 rounded-xl font-semibold transition-all text-sm ${
+                justAdded
+                  ? "border-green-600 text-green-600 bg-green-50"
+                  : "border-black text-black hover:bg-black hover:text-white"
+              }`}
+            >
+              {justAdded ? (
+                <><Check className="w-5 h-5" /> Ajouté au panier !</>
+              ) : (
+                <><ShoppingCart className="w-5 h-5" /> Ajouter au panier</>
+              )}
             </button>
-            <Link href="/checkout" className="flex-1">
-              <button className="w-full px-4 py-3.5 bg-black text-white rounded-xl font-semibold hover:bg-black/85 transition-colors text-sm">
-                Acheter maintenant
-              </button>
-            </Link>
+            <button
+              onClick={handleBuyNow}
+              className="flex-1 px-4 py-3.5 bg-black text-white rounded-xl font-semibold hover:bg-black/85 transition-colors text-sm"
+            >
+              Acheter maintenant
+            </button>
           </div>
 
           {/* Trust badges */}
