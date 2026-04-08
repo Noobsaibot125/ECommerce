@@ -52,7 +52,7 @@ export default function PanierPage() {
                   {/* Product */}
                   <div className="col-span-6 flex items-center gap-4">
                     <div className="w-20 h-20 bg-[#F5F5F5] rounded-lg relative shrink-0">
-                      <Image src={`/images/Home/${item.image}`} alt={item.name} fill className="object-contain p-2" />
+                      <Image src={item.image.startsWith('/') || item.image.startsWith('http') ? item.image : `/images/Home/${item.image}`} alt={item.name} fill className="object-contain p-2" sizes="80px" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-sm">{item.name}</h3>
