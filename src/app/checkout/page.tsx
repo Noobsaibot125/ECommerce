@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, ChevronRight, CreditCard, Smartphone } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 const steps = [
@@ -27,7 +27,7 @@ const tax = Math.round(subtotal * 0.18);
 export default function CheckoutPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedShipping, setSelectedShipping] = useState("free");
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "mobile">("card");
+
   const [orderComplete, setOrderComplete] = useState(false);
 
   const shippingCost = shippingMethods.find(m => m.id === selectedShipping)?.price ?? 0;
@@ -191,64 +191,20 @@ export default function CheckoutPage() {
           {currentStep === 3 && (
             <div>
               <h2 className="text-xl font-bold mb-6">Paiement</h2>
-
-              {/* Payment method toggle */}
-              <div className="flex gap-3 mb-6">
-                <button
-                  onClick={() => setPaymentMethod("card")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border-2 text-sm font-semibold transition-colors ${paymentMethod === "card" ? "border-black bg-black text-white" : "border-gray-200 text-gray-600 hover:border-gray-400"}`}
-                >
-                  <CreditCard className="w-4 h-4" /> Carte bancaire
-                </button>
-                <button
-                  onClick={() => setPaymentMethod("mobile")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border-2 text-sm font-semibold transition-colors ${paymentMethod === "mobile" ? "border-black bg-black text-white" : "border-gray-200 text-gray-600 hover:border-gray-400"}`}
-                >
-                  <Smartphone className="w-4 h-4" /> Mobile Money
-                </button>
+              
+              <div className="bg-[#F5F5F5] p-6 rounded-2xl border border-gray-200">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-black rounded-full flex shrink-0 items-center justify-center text-white">
+                    <Check className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">Paiement à la livraison</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Le paiement s'effectuera à la livraison de votre commande. Préparez le montant total de <strong>{total.toLocaleString("fr-FR")} FCFA</strong> en espèces ou Mobile Money pour le livreur.
+                    </p>
+                  </div>
+                </div>
               </div>
-
-              {paymentMethod === "card" && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Numéro de carte</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black" placeholder="0000 0000 0000 0000" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5">Date d&apos;expiration</label>
-                      <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black" placeholder="MM / AA" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1.5">CVV</label>
-                      <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black" placeholder="123" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Nom sur la carte</label>
-                    <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black" placeholder="JOHN DOE" />
-                  </div>
-                </div>
-              )}
-
-              {paymentMethod === "mobile" && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-3">Opérateur</label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {["Orange Money", "Wave", "MTN MoMo"].map(op => (
-                        <button key={op} className="py-3 px-2 border-2 border-gray-200 rounded-xl text-xs font-semibold hover:border-black transition-colors">
-                          {op}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Numéro de téléphone</label>
-                    <input type="tel" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black" placeholder="+225 00 00 00 00 00" />
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -266,7 +222,7 @@ export default function CheckoutPage() {
               onClick={nextStep}
               className="flex-1 py-3.5 bg-black text-white rounded-xl font-semibold hover:bg-black/85 transition-colors"
             >
-              {currentStep === 3 ? "Confirmer et payer" : "Continuer"}
+              {currentStep === 3 ? "Confirmer la commande" : "Continuer"}
             </button>
           </div>
         </div>
