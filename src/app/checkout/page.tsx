@@ -29,11 +29,40 @@ export default function CheckoutPage() {
   const [selectedShipping, setSelectedShipping] = useState("free");
 
   const [orderComplete, setOrderComplete] = useState(false);
+  const [formData, setFormData] = useState({
+    prenom: "",
+    nom: "",
+    adresse: "",
+    telephone: "",
+    email: "",
+    note: ""
+  });
+  const [errors, setErrors] = useState({
+    prenom: false,
+    nom: false,
+    adresse: false,
+    telephone: false,
+    email: false
+  });
 
   const shippingCost = shippingMethods.find(m => m.id === selectedShipping)?.price ?? 0;
   const total = subtotal + tax + shippingCost;
 
   const nextStep = () => {
+    if (currentStep === 1) {
+      const newErrors = {
+        prenom: !formData.prenom.trim(),
+        nom: !formData.nom.trim(),
+        adresse: !formData.adresse.trim(),
+        telephone: !formData.telephone.trim(),
+        email: !formData.email.trim(),
+      };
+      setErrors(newErrors);
+      if (Object.values(newErrors).some(err => err)) {
+        return; // Stop here if errors
+      }
+    }
+
     if (currentStep === 3) setOrderComplete(true);
     else setCurrentStep(s => s + 1);
   };
@@ -113,44 +142,33 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1.5">Prénom <span className="text-red-500">*</span></label>
-                    <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="John" />
+                    <input type="text" value={formData.prenom} onChange={e => setFormData({...formData, prenom: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors ${errors.prenom ? 'border-red-500' : 'border-gray-300'}`} placeholder="John" />
+                    {errors.prenom && <p className="text-red-500 text-xs mt-1">Ce champ est requis.</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1.5">Nom <span className="text-red-500">*</span></label>
-                    <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="Doe" />
+                    <input type="text" value={formData.nom} onChange={e => setFormData({...formData, nom: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors ${errors.nom ? 'border-red-500' : 'border-gray-300'}`} placeholder="Doe" />
+                    {errors.nom && <p className="text-red-500 text-xs mt-1">Ce champ est requis.</p>}
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1.5">Adresse <span className="text-red-500">*</span></label>
-                  <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="123 Rue Principale, Cocody" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Ville <span className="text-red-500">*</span></label>
-                    <input type="text" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="Abidjan" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1.5">Pays <span className="text-red-500">*</span></label>
-                    <select className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors bg-white">
-                      <option>Côte d&apos;Ivoire</option>
-                      <option>Sénégal</option>
-                      <option>Mali</option>
-                      <option>Burkina Faso</option>
-                      <option>France</option>
-                    </select>
-                  </div>
+                  <input type="text" value={formData.adresse} onChange={e => setFormData({...formData, adresse: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors ${errors.adresse ? 'border-red-500' : 'border-gray-300'}`} placeholder="123 Rue Principale, Cocody" />
+                  {errors.adresse && <p className="text-red-500 text-xs mt-1">Ce champ est requis.</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1.5">Téléphone <span className="text-red-500">*</span></label>
-                  <input type="tel" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="+225 00 00 00 00 00" />
+                  <input type="tel" value={formData.telephone} onChange={e => setFormData({...formData, telephone: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors ${errors.telephone ? 'border-red-500' : 'border-gray-300'}`} placeholder="+225 00 00 00 00 00" />
+                  {errors.telephone && <p className="text-red-500 text-xs mt-1">Ce champ est requis.</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1.5">Email <span className="text-red-500">*</span></label>
-                  <input type="email" className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors" placeholder="john@email.com" />
+                  <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors ${errors.email ? 'border-red-500' : 'border-gray-300'}`} placeholder="john@email.com" />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">Ce champ est requis.</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1.5">Note (optionnel)</label>
-                  <textarea className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors h-24" placeholder="Instructions de livraison..." />
+                  <textarea value={formData.note} onChange={e => setFormData({...formData, note: e.target.value})} className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors h-24" placeholder="Instructions de livraison..." />
                 </div>
               </div>
             </div>
